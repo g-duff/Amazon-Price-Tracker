@@ -1,7 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import datetime
-import time
 import smtplib, ssl
 
 def extract_url(url):
@@ -33,11 +31,13 @@ def email(message, password):
         server.sendmail("drbencpython@gmail.com", "coulsonba@gmail.com", str(message))
         print("Cheap price detected, email sent")
 
-def add_prices(soup_list):
-    timestamp = datetime.datetime.now()
-    prices = [get_price(s) for s in soup_list]
-    price_list = [timestamp] + prices
-    return [price_list]
+def timestamp_to_list(timestamp):
+    ''' Converts a timestamp to [year, month, day, hour, minute, second]'''
+    date, time = str(timestamp).split(' ')
+    date, time = date.split('-'), time.split(':')
+    date, time = [int(d) for d in date], [float(t) for t in time]
+    timestamp = date + time
+    return timestamp
 
 def get_soup(url):
     '''Gets a soup from a URL'''

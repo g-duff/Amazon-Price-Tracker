@@ -1,7 +1,8 @@
-import datetime
+from datetime import datetime
 import time
 import smtplib, ssl
 import scrape_lib as scl
+import numpy as np
 
 ## Dashboard
 
@@ -31,11 +32,17 @@ with open('Item Numbers.txt', 'w') as file:
         file.write(str(set_number_list))
 
 while True:
-     ## Refresh soups and prices
-    price_list_print = scl.add_prices(soup_list)
+    # Get current prices
+    timestamp = datetime.now()
+    price_list = [scl.get_price(s) for s in soup_list]
+    timed_price_list = scl.timestamp_to_list(timestamp) + price_list
+
+    # Output to file
     with open('Price Data.txt', 'a') as file:
-        file.write(str(price_list_print)+"\n")
-    print("Prices updated at "+str(datetime.datetime.now()))
-    time.sleep(3600)
-    
+        np.savetxt(file, timed_price_list, newline=" ")
+        file.write('\n')
+    print("Prices updated at "+str(timestamp))
+
+    # Wait, then refresh soups
+    time.sleep(3600)    
     soup_list = [scl.get_soup(u) for u in url_list]
