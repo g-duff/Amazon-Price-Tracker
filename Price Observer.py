@@ -12,7 +12,7 @@ times = (f'{h:02.0f}:{m:02.0f}:{s:02.0f}' for h, m, s in zip(hour, minute, secon
 datetimes = [np.datetime64(f'{d}T{t}') for d, t in zip(dates, times)]
 
 for item, price in zip(item_numbers, prices):
-    plt.plot(datetimes, price, label=item)
+    plt.plot(datetimes, price, label=item, marker='o')
 plt.xticks(rotation = 90)
 plt.legend()
 plt.tight_layout()
