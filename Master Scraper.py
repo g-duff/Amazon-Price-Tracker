@@ -28,8 +28,7 @@ set_number_list = [t[5:10] for t in title_list]
 print("Set numbers watched: ")
 print(set_number_list)
 
-with open('Item Numbers.txt', 'w') as file:
-        file.write(str(set_number_list))
+np.savetxt('Item Numbers.txt', set_number_list, fmt='%s', newline=" ")
 
 while True:
     # Get current prices
